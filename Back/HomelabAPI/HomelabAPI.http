@@ -1,0 +1,6 @@
+@HomelabAPI_HostAddress = http://localhost:5202
+
+GET {{HomelabAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
