@@ -25,10 +25,10 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore Back/HomelabAPI/HomelabAPI.sln
+        run: dotnet restore HomelabAPI.sln
 
       - name: Build
-        run: dotnet build Back/HomelabAPI/HomelabAPI.sln --no-restore
+        run: dotnet build HomelabAPI.sln --no-restore
 
       - name: Test
-        run: dotnet test Back/HomelabAPI/HomelabAPI.sln --no-build
+        run: dotnet test HomelabAPI.sln --no-build
