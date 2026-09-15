@@ -1,4 +1,4 @@
-using HomelabAPI.Application.Interfaces;
+using HomelabAPI.Application.Interfaces.Services;
 using HomelabAPI.Application.Services;
 
 namespace HomelabAPI

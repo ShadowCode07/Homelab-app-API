@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
-using HomelabAPI.Application.Interfaces;
+using HomelabAPI.Application.Interfaces.Services;
 
 namespace HomelabAPI.Controllers
 {

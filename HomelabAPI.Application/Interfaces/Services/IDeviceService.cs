@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HomelabAPI.Application.Interfaces
+namespace HomelabAPI.Application.Interfaces.Services
 {
     public interface IDeviceService
     {

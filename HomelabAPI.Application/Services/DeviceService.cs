@@ -1,4 +1,4 @@
-﻿using HomelabAPI.Application.Interfaces;
+﻿using HomelabAPI.Application.Interfaces.Services;
 using HomelabAPI.Core.Entities;
 using System;
 using System.Collections.Generic;
