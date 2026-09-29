@@ -1,4 +1,7 @@
-﻿using HomelabAPI.Application.Interfaces.Services;
+﻿using HomelabAPI.Application.DTOs.Devices;
+using HomelabAPI.Application.Interfaces.Repository;
+using HomelabAPI.Application.Interfaces.Services;
+using HomelabAPI.Application.Mapping;
 using HomelabAPI.Core.Entities;
 using HomelabAPI.Core.Enums;
 using System;
@@ -11,19 +14,22 @@ namespace HomelabAPI.Application.Services
 {
     public class DeviceService : IDeviceService
     {
-        public Task<List<Device>> GetDevicesAsync()
+        private readonly IDeviceRepository _deviceRepository;
+        public DeviceService(IDeviceRepository deviceRepository)
+            => _deviceRepository = deviceRepository;
+
+        public async Task<DeviceDto> CreateDeviceAsync(DeviceCreateDto dto)
         {
-            return Task.FromResult(new List<Device>
-            {
-                new Device { Id = Guid.NewGuid(), Name = "Device 1", DeviceType = DeviceType.Server, DeviceStatus = DeviceStatus.Online },
-                new Device { Id = Guid.NewGuid(), Name = "Device 2", DeviceType = DeviceType.Mobile, DeviceStatus = DeviceStatus.Offline },
-                new Device { Id = Guid.NewGuid(), Name = "Device 3", DeviceType = DeviceType.Computer, DeviceStatus = DeviceStatus.Online }
-            });
+            var device = dto.ToEntity();
+            await _deviceRepository.AddAsync(device);
+            await _deviceRepository.SaveChangesAsync();
+            return device.ToDto();
         }
 
-        public Task<Device> GetDeviceByIdAsync(Guid id)
-        {
-           return Task.FromResult(new Device { Id = id, Name = "Device 1", DeviceType = DeviceType.Server, DeviceStatus = DeviceStatus.Online });
-        }
+        public async Task<DeviceDto?> GetDeviceByIdAsync(Guid Id)
+            => (await _deviceRepository.GetByIdAsync(Id))?.ToDto();
+
+        public async Task<IReadOnlyList<DeviceDto>> GetDevicesAsync()
+            => (await _deviceRepository.GetAllAsync()).ToDtoList();
     }
 }

@@ -7,24 +7,24 @@ namespace HomelabAPI.Controllers
     [ApiController]
     public class DeviceController : ControllerBase
     {
-        private readonly IDeviceService _deviceController;
+        private readonly IDeviceService _deviceService;
 
-        public DeviceController(IDeviceService deviceController)
+        public DeviceController(IDeviceService deviceService)
         {
-            _deviceController = deviceController;
+            _deviceService = deviceService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetDevices()
         {
-            var devices = await _deviceController.GetDevicesAsync();
+            var devices = await _deviceService.GetDevicesAsync();
             return Ok(devices);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDeviceById(Guid id)
         {
-            var device = await _deviceController.GetDeviceByIdAsync(id);
+            var device = await _deviceService.GetDeviceByIdAsync(id);
 
             if (device == null)
             {

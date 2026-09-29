@@ -1,4 +1,5 @@
 using DotNetEnv;
+using HomelabAPI.Application.Interfaces.Repository;
 using HomelabAPI.Application.Interfaces.Services;
 using HomelabAPI.Application.Services;
 using HomelabAPI.Infrastructure.Data;
@@ -18,6 +19,8 @@ namespace HomelabAPI
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<IDeviceService, DeviceService>();
 
             builder.Services.AddScoped<IDeviceService, DeviceService>();
 

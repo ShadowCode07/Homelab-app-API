@@ -21,7 +21,7 @@ namespace HomelabAPI.Infrastructure.Repostitories
             _set = context.Set<T>();
         }
 
-        public async Task CreateAsync(T entity)
+        public async Task AddAsync(T entity)
             => await _set.AddAsync(entity);
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -30,5 +30,7 @@ namespace HomelabAPI.Infrastructure.Repostitories
         public async Task<T?> GetByIdAsync(Guid id)
             => await _set.FindAsync(id).AsTask();
 
+        public Task SaveChangesAsync() 
+            => _context.SaveChangesAsync();
     }
 }

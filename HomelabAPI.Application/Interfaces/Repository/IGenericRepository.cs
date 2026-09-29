@@ -11,6 +11,7 @@ namespace HomelabAPI.Application.Interfaces.Repository
     {
         Task<T?> GetByIdAsync(Guid id);
         Task<IEnumerable<T>> GetAllAsync();
-        Task CreateAsync(T entity);
+        Task AddAsync(T entity);
+        Task SaveChangesAsync();
     }
 }
