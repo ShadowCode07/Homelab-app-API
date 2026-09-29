@@ -1,5 +1,8 @@
+using DotNetEnv;
 using HomelabAPI.Application.Interfaces.Services;
 using HomelabAPI.Application.Services;
+using HomelabAPI.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomelabAPI
 {
@@ -7,7 +10,12 @@ namespace HomelabAPI
     {
         public static void Main(string[] args)
         {
+            Env.TraversePath().Load();
+
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
 

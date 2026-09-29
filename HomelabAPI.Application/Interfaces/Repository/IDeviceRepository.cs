@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomelabAPI.Application.Interfaces.Repository
 {
-    public interface IDeviceRepositroy : IGenericRepositry
+    public interface IDeviceRepository : IGenericRepository
     {
     }
 }
