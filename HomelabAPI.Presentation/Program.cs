@@ -3,7 +3,9 @@ using HomelabAPI.Application.Interfaces.Repository;
 using HomelabAPI.Application.Interfaces.Services;
 using HomelabAPI.Application.Services;
 using HomelabAPI.Infrastructure.Data;
+using HomelabAPI.Infrastructure.Repostitories;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace HomelabAPI
 {
@@ -18,11 +20,14 @@ namespace HomelabAPI
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+            builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+            builder.Services.AddScoped<IDeviceGroupRepository, DeviceGroupRepository>();
 
             builder.Services.AddScoped<IDeviceService, DeviceService>();
-
-            builder.Services.AddScoped<IDeviceService, DeviceService>();
+            builder.Services.AddScoped<IDeviceGroupService, DeviceGroupService>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -32,7 +37,10 @@ namespace HomelabAPI
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.ConfigObject.AdditionalItems["operationsSorter"] = "method";
+                });
             }
 
             app.UseHttpsRedirection();

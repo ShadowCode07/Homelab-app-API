@@ -1,9 +1,4 @@
 ﻿using HomelabAPI.Core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HomelabAPI.Application.DTOs.Devices
 {
@@ -11,9 +6,12 @@ namespace HomelabAPI.Application.DTOs.Devices
     (
         Guid Id,
         string Name,
+        string Hostname,
         DeviceType DeviceType,
         DeviceStatus DeviceStatus,
         string? IpAddress,
+        Guid? DeviceGroupId,
+        string? DeviceGroupName,
         DateTime? LastSeenAt,
         DateTime CreatedAt
     );

@@ -4,6 +4,7 @@ using HomelabAPI.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomelabAPI.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260929120000_AddDeviceHostnameAndGroups")]
+    partial class AddDeviceHostnameAndGroups
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,61 +68,6 @@ namespace HomelabAPI.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Devices");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("3b9a7c10-5d2e-4f81-a6c4-000000000001"),
-                            CreatedAt = new DateTime(2026, 9, 29, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DeviceGroupId = new Guid("8f5d2a4e-3c1b-4e6a-9b7d-1a2b3c4d5e01"),
-                            DeviceStatus = 0,
-                            DeviceType = 1,
-                            Hostname = "pve-01",
-                            IpAddress = "192.168.1.10",
-                            Name = "Proxmox host"
-                        },
-                        new
-                        {
-                            Id = new Guid("3b9a7c10-5d2e-4f81-a6c4-000000000002"),
-                            CreatedAt = new DateTime(2026, 9, 29, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DeviceGroupId = new Guid("8f5d2a4e-3c1b-4e6a-9b7d-1a2b3c4d5e01"),
-                            DeviceStatus = 0,
-                            DeviceType = 1,
-                            Hostname = "nas-01",
-                            IpAddress = "192.168.1.20",
-                            Name = "NAS"
-                        },
-                        new
-                        {
-                            Id = new Guid("3b9a7c10-5d2e-4f81-a6c4-000000000003"),
-                            CreatedAt = new DateTime(2026, 9, 29, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DeviceGroupId = new Guid("8f5d2a4e-3c1b-4e6a-9b7d-1a2b3c4d5e02"),
-                            DeviceStatus = 0,
-                            DeviceType = 2,
-                            Hostname = "desktop-main",
-                            IpAddress = "192.168.1.50",
-                            Name = "Main desktop"
-                        },
-                        new
-                        {
-                            Id = new Guid("3b9a7c10-5d2e-4f81-a6c4-000000000004"),
-                            CreatedAt = new DateTime(2026, 9, 29, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DeviceGroupId = new Guid("8f5d2a4e-3c1b-4e6a-9b7d-1a2b3c4d5e03"),
-                            DeviceStatus = 0,
-                            DeviceType = 2,
-                            Hostname = "pi-livingroom",
-                            IpAddress = "192.168.1.60",
-                            Name = "Living room Pi"
-                        },
-                        new
-                        {
-                            Id = new Guid("3b9a7c10-5d2e-4f81-a6c4-000000000005"),
-                            CreatedAt = new DateTime(2026, 9, 29, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DeviceStatus = 0,
-                            DeviceType = 3,
-                            Hostname = "phone-01",
-                            Name = "Phone"
-                        });
                 });
 
             modelBuilder.Entity("HomelabAPI.Core.Entities.DeviceGroup", b =>

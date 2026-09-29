@@ -1,6 +1,48 @@
 @HomelabAPI_HostAddress = http://localhost:5202
 
-GET {{HomelabAPI_HostAddress}}/weatherforecast/
+### List device groups / locations
+GET {{HomelabAPI_HostAddress}}/api/devicegroup
+Accept: application/json
+
+### List all devices
+GET {{HomelabAPI_HostAddress}}/api/device
+Accept: application/json
+
+### Register a device (AC1) - 201 Created
+POST {{HomelabAPI_HostAddress}}/api/device
+Content-Type: application/json
+
+{
+  "name": "Kitchen Pi",
+  "hostname": "pi-kitchen",
+  "deviceType": "Computer",
+  "ipAddress": "192.168.1.42",
+  "deviceGroupId": "8f5d2a4e-3c1b-4e6a-9b7d-1a2b3c4d5e03"
+}
+
+### Invalid registration (AC2) - 400 with errors for Name, Hostname and IpAddress
+POST {{HomelabAPI_HostAddress}}/api/device
+Content-Type: application/json
+
+{
+  "name": "",
+  "hostname": "-not valid-",
+  "deviceType": "Server",
+  "ipAddress": "999.1.1.1"
+}
+
+### Duplicate hostname (AC4) - 409 Conflict (run after the first POST)
+POST {{HomelabAPI_HostAddress}}/api/device
+Content-Type: application/json
+
+{
+  "name": "Another Pi",
+  "hostname": "PI-KITCHEN",
+  "deviceType": "Computer"
+}
+
+### Device details (AC3) - replace the id with one returned by the POST
+GET {{HomelabAPI_HostAddress}}/api/device/00000000-0000-0000-0000-000000000000
 Accept: application/json
 
 ###

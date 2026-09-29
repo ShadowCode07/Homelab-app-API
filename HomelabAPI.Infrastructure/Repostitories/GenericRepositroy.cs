@@ -2,11 +2,6 @@
 using HomelabAPI.Core.Entities;
 using HomelabAPI.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HomelabAPI.Infrastructure.Repostitories
 {
@@ -21,16 +16,19 @@ namespace HomelabAPI.Infrastructure.Repostitories
             _set = context.Set<T>();
         }
 
-        public async Task AddAsync(T entity)
+        public virtual async Task AddAsync(T entity)
             => await _set.AddAsync(entity);
 
-        public async Task<IEnumerable<T>> GetAllAsync()
-            => await _set.ToListAsync();
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+            => await _set.AsNoTracking().ToListAsync();
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public virtual async Task<T?> GetByIdAsync(Guid id)
             => await _set.FindAsync(id).AsTask();
 
-        public Task SaveChangesAsync() 
+        public virtual Task<bool> ExistsAsync(Guid id)
+            => _set.AnyAsync(e => e.Id == id);
+
+        public Task SaveChangesAsync()
             => _context.SaveChangesAsync();
     }
 }
