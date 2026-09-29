@@ -1,4 +1,6 @@
 ﻿using HomelabAPI.Application.Interfaces.Repository;
+using HomelabAPI.Core.Entities;
+using HomelabAPI.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace HomelabAPI.Infrastructure.Repostitories
 {
-    public class DeviceRepository : GenericRepositroy, IDeviceRepository
+    public class DeviceRepository : GenericRepositroy<Device>, IDeviceRepository
     {
-        public DeviceRepository() { 
+        public DeviceRepository(ApplicationDbContext context) : base(context)
+        {
         }
     }
 }
