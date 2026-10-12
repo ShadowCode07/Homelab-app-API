@@ -1,6 +1,7 @@
 ﻿using HomelabAPI.Application.DTOs.Devices;
 using HomelabAPI.Application.Exceptions;
 using HomelabAPI.Application.Interfaces.Services;
+using HomelabAPI.Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomelabAPI.Controllers
@@ -59,6 +60,11 @@ namespace HomelabAPI.Controllers
                     Status = StatusCodes.Status409Conflict,
                     Title = "Hostname is already in use."
                 });
+            }
+            catch (DomainException ex)
+            {
+                ModelState.AddModelError(ex.Field, ex.Message);
+                return ValidationProblem(ModelState);
             }
             catch (DeviceGroupNotFoundException ex)
             {

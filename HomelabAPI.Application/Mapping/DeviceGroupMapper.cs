@@ -1,5 +1,5 @@
 ﻿using HomelabAPI.Application.DTOs.DeviceGroups;
-using HomelabAPI.Core.Entities;
+using HomelabAPI.Core.Domain;
 using Riok.Mapperly.Abstractions;
 
 namespace HomelabAPI.Application.Mapping
@@ -7,7 +7,6 @@ namespace HomelabAPI.Application.Mapping
     [Mapper]
     public static partial class DeviceGroupMapper
     {
-        [MapperIgnoreSource(nameof(DeviceGroup.Devices))]
         [MapperIgnoreSource(nameof(DeviceGroup.CreatedAt))]
         public static partial DeviceGroupDto ToDto(this DeviceGroup group);
 

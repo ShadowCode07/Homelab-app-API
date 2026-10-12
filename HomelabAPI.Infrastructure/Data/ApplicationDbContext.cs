@@ -1,4 +1,5 @@
-﻿using HomelabAPI.Core.Entities;
+﻿using HomelabAPI.Core.Domain;
+using HomelabAPI.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace HomelabAPI.Infrastructure.Data
@@ -9,28 +10,28 @@ namespace HomelabAPI.Infrastructure.Data
         {
         }
 
-        public DbSet<Device> Devices { get; set; }
-        public DbSet<DeviceGroup> DeviceGroups { get; set; }
+        public DbSet<DeviceEntity> Devices { get; set; }
+        public DbSet<DeviceGroupEntity> DeviceGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Device>(device =>
+            modelBuilder.Entity<DeviceEntity>(device =>
             {
                 device.Property(d => d.Name)
                     .IsRequired()
-                    .HasMaxLength(100);
+                    .HasMaxLength(Device.NameMaxLength);
 
                 device.Property(d => d.Hostname)
                     .IsRequired()
-                    .HasMaxLength(253);
+                    .HasMaxLength(Device.HostnameMaxLength);
 
                 device.HasIndex(d => d.Hostname)
                     .IsUnique();
 
                 device.Property(d => d.IpAddress)
-                    .HasMaxLength(45);
+                    .HasMaxLength(Device.IpAddressMaxLength);
 
                 device.HasOne(d => d.DeviceGroup)
                     .WithMany(g => g.Devices)
@@ -40,17 +41,17 @@ namespace HomelabAPI.Infrastructure.Data
                 device.HasData(DeviceSeed.Devices);
             });
 
-            modelBuilder.Entity<DeviceGroup>(group =>
+            modelBuilder.Entity<DeviceGroupEntity>(group =>
             {
                 group.Property(g => g.Name)
                     .IsRequired()
-                    .HasMaxLength(100);
+                    .HasMaxLength(DeviceGroup.NameMaxLength);
 
                 group.HasIndex(g => g.Name)
                     .IsUnique();
 
                 group.Property(g => g.Description)
-                    .HasMaxLength(500);
+                    .HasMaxLength(DeviceGroup.DescriptionMaxLength);
 
                 group.HasData(DeviceGroupSeed.Groups);
             });

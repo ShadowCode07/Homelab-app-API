@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Net.Sockets;
+﻿using HomelabAPI.Core.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomelabAPI.Application.Validation
 {
@@ -17,16 +16,7 @@ namespace HomelabAPI.Application.Validation
             if (value is not string ip || string.IsNullOrWhiteSpace(ip))
                 return true;
 
-            ip = ip.Trim();
-            if (!IPAddress.TryParse(ip, out var parsed))
-                return false;
-
-            return parsed.AddressFamily switch
-            {
-                AddressFamily.InterNetwork => ip.Split('.').Length == 4,
-                AddressFamily.InterNetworkV6 => true,
-                _ => false
-            };
+            return Device.IsValidIpAddress(ip);
         }
     }
 }

@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
+﻿using HomelabAPI.Core.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomelabAPI.Application.Validation
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
-    public sealed partial class HostnameAttribute : ValidationAttribute
+    public sealed class HostnameAttribute : ValidationAttribute
     {
-        public const int MaxLength = 253;
-
         public HostnameAttribute()
             : base("Hostname may only contain letters, digits, hyphens and dots, and each part must start and end with a letter or digit (e.g. 'pi-kitchen' or 'nas.home.lan').")
         {
@@ -18,11 +16,7 @@ namespace HomelabAPI.Application.Validation
             if (value is not string hostname || string.IsNullOrWhiteSpace(hostname))
                 return true;
 
-            hostname = hostname.Trim();
-            return hostname.Length <= MaxLength && HostnameRegex().IsMatch(hostname);
+            return Device.IsValidHostname(hostname);
         }
-
-        [GeneratedRegex(@"^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$")]
-        private static partial Regex HostnameRegex();
     }
 }
