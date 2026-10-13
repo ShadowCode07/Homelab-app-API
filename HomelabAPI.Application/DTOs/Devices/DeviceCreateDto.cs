@@ -17,9 +17,6 @@ namespace HomelabAPI.Application.DTOs.Devices
         [EnumDataType(typeof(DeviceType), ErrorMessage = "Device type is not a valid value.")]
         public DeviceType DeviceType { get; init; } = DeviceType.Other;
 
-        [IpAddress]
-        public string? IpAddress { get; init; }
-
         public Guid? DeviceGroupId { get; init; }
     }
 }

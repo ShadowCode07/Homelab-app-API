@@ -35,7 +35,6 @@ Registration body:
   "name": "Kitchen Pi",
   "hostname": "pi-kitchen",
   "deviceType": "Computer",
-  "ipAddress": "192.168.1.42",
   "deviceGroupId": "8f5d2a4e-3c1b-4e6a-9b7d-1a2b3c4d5e03"
 }
 ```
@@ -45,7 +44,7 @@ Validation rules:
 - `name` – required, max 100 characters.
 - `hostname` – required, a valid RFC 1123 hostname (e.g. `pi-kitchen`, `nas.home.lan`). It is the device's unique identifier: stored in lower case and compared case-insensitively, so `PI-Kitchen` and `pi-kitchen` are the same device.
 - `deviceType` – optional, one of `Other` (default), `Server`, `Computer`, `Mobile`.
-- `ipAddress` – optional, a full IPv4 (`192.168.1.42`) or IPv6 address.
+- The IP address is not part of registration: the device's agent reports it.
 - `deviceGroupId` – optional, must be an existing group.
 
 Errors use the standard `ValidationProblemDetails` shape (`errors: { "Hostname": ["..."] }`) for both `400` and `409`, so a client can show each message next to its field.

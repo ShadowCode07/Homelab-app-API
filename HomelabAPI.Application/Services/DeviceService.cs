@@ -20,7 +20,7 @@ namespace HomelabAPI.Application.Services
 
         public async Task<DeviceDto> CreateDeviceAsync(DeviceCreateDto dto)
         {
-            var device = Device.Create(dto.Name, dto.Hostname, dto.DeviceType, dto.IpAddress, dto.DeviceGroupId);
+            var device = Device.Create(dto.Name, dto.Hostname, dto.DeviceType, dto.DeviceGroupId);
 
             if (await _deviceRepository.HostnameExistsAsync(device.Hostname))
                 throw new DuplicateHostnameException(device.Hostname);

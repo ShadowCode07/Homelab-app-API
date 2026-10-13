@@ -16,19 +16,17 @@ Content-Type: application/json
   "name": "Kitchen Pi",
   "hostname": "pi-kitchen",
   "deviceType": "Computer",
-  "ipAddress": "192.168.1.42",
   "deviceGroupId": "8f5d2a4e-3c1b-4e6a-9b7d-1a2b3c4d5e03"
 }
 
-### Invalid registration (AC2) - 400 with errors for Name, Hostname and IpAddress
+### Invalid registration (AC2) - 400 with errors for Name and Hostname
 POST {{HomelabAPI_HostAddress}}/api/device
 Content-Type: application/json
 
 {
   "name": "",
   "hostname": "-not valid-",
-  "deviceType": "Server",
-  "ipAddress": "999.1.1.1"
+  "deviceType": "Server"
 }
 
 ### Duplicate hostname (AC4) - 409 Conflict (run after the first POST)

@@ -47,7 +47,7 @@ namespace HomelabAPI.Core.Domain
             DeviceGroupId = deviceGroupId;
         }
 
-        public static Device Create(string name, string hostname, DeviceType deviceType, string? ipAddress, Guid? deviceGroupId)
+        public static Device Create(string name, string hostname, DeviceType deviceType, Guid? deviceGroupId)
         {
             var cleanName = (name ?? string.Empty).Trim();
             if (cleanName.Length == 0)
@@ -63,17 +63,13 @@ namespace HomelabAPI.Core.Domain
             if (!IsValidHostname(cleanHostname))
                 throw new DomainException(nameof(Hostname), "Hostname may only contain letters, digits, hyphens and dots, and each part must start and end with a letter or digit.");
 
-            var cleanIp = string.IsNullOrWhiteSpace(ipAddress) ? null : ipAddress.Trim();
-            if (cleanIp is not null && !IsValidIpAddress(cleanIp))
-                throw new DomainException(nameof(IpAddress), "IP address must be a valid IPv4 or IPv6 address.");
-
             return new Device(
                 Guid.NewGuid(),
                 cleanName,
                 cleanHostname,
                 deviceType,
                 DeviceStatus.Unknown,
-                cleanIp,
+                ipAddress: null,
                 lastSeenAt: null,
                 createdAt: DateTime.UtcNow,
                 deviceGroupId);
