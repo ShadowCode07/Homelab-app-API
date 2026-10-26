@@ -1,4 +1,4 @@
-﻿namespace HomelabAPI.Application.DTOs.DeviceGroups
+﻿namespace HomelabAPI.Presentation.DTOs.DeviceGroups
 {
     public record DeviceGroupDto
     (

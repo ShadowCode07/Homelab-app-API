@@ -1,9 +1,9 @@
-﻿using HomelabAPI.Application.DTOs.DeviceGroups;
+﻿using HomelabAPI.Core.Domain;
 
 namespace HomelabAPI.Application.Interfaces.Services
 {
     public interface IDeviceGroupService
     {
-        Task<IReadOnlyList<DeviceGroupDto>> GetDeviceGroupsAsync();
+        Task<IReadOnlyList<DeviceGroup>> GetDeviceGroupsAsync();
     }
 }

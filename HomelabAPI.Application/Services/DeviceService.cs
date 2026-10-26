@@ -1,8 +1,6 @@
-﻿using HomelabAPI.Application.DTOs.Devices;
-using HomelabAPI.Application.Exceptions;
+﻿using HomelabAPI.Application.Exceptions;
 using HomelabAPI.Application.Interfaces.Repository;
 using HomelabAPI.Application.Interfaces.Services;
-using HomelabAPI.Application.Mapping;
 using HomelabAPI.Core.Domain;
 
 namespace HomelabAPI.Application.Services
@@ -18,50 +16,29 @@ namespace HomelabAPI.Application.Services
             _deviceGroupRepository = deviceGroupRepository;
         }
 
-        public async Task<DeviceDto> CreateDeviceAsync(DeviceCreateDto dto)
+        public async Task<Device> CreateDeviceAsync(Device device)
         {
-            var device = Device.Create(dto.Name, dto.Hostname, dto.DeviceType, dto.DeviceGroupId);
-
             if (await _deviceRepository.HostnameExistsAsync(device.Hostname))
                 throw new DuplicateHostnameException(device.Hostname);
 
-            string? groupName = null;
             if (device.DeviceGroupId is Guid groupId)
             {
                 var group = await _deviceGroupRepository.GetByIdAsync(groupId)
                     ?? throw new DeviceGroupNotFoundException(groupId);
-                groupName = group.Name;
+
+                device.AssignGroup(group);
             }
 
             await _deviceRepository.AddAsync(device);
             await _deviceRepository.SaveChangesAsync();
 
-            return device.ToDto(groupName);
+            return device;
         }
 
-        public async Task<DeviceDto?> GetDeviceByIdAsync(Guid id)
-        {
-            var device = await _deviceRepository.GetByIdAsync(id);
-            if (device is null)
-                return null;
+        public Task<Device?> GetDeviceByIdAsync(Guid id)
+            => _deviceRepository.GetByIdAsync(id);
 
-            string? groupName = null;
-            if (device.DeviceGroupId is Guid groupId)
-                groupName = (await _deviceGroupRepository.GetByIdAsync(groupId))?.Name;
-
-            return device.ToDto(groupName);
-        }
-
-        public async Task<IReadOnlyList<DeviceDto>> GetDevicesAsync()
-        {
-            var devices = await _deviceRepository.GetAllAsync();
-            var groupNames = (await _deviceGroupRepository.GetAllAsync())
-                .ToDictionary(g => g.Id, g => g.Name);
-
-            return devices
-                .Select(d => d.ToDto(
-                    d.DeviceGroupId is Guid groupId && groupNames.TryGetValue(groupId, out var name) ? name : null))
-                .ToList();
-        }
+        public Task<IReadOnlyList<Device>> GetDevicesAsync()
+            => _deviceRepository.GetAllAsync();
     }
 }

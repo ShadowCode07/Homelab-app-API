@@ -1,7 +1,7 @@
 ﻿using HomelabAPI.Core.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace HomelabAPI.Application.Validation
+namespace HomelabAPI.Presentation.Validation
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public sealed class IpAddressAttribute : ValidationAttribute

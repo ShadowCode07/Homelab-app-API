@@ -1,8 +1,9 @@
-﻿using HomelabAPI.Application.DTOs.Devices;
+﻿using HomelabAPI.Presentation.DTOs.Devices;
 using HomelabAPI.Application.Exceptions;
 using HomelabAPI.Application.Interfaces.Services;
 using HomelabAPI.Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using HomelabAPI.Presentation.Mapping;
 
 namespace HomelabAPI.Controllers
 {
@@ -23,7 +24,7 @@ namespace HomelabAPI.Controllers
         public async Task<IActionResult> GetDevices()
         {
             var devices = await _deviceService.GetDevicesAsync();
-            return Ok(devices);
+            return Ok(devices.ToDtoList());
         }
 
         [HttpGet("{id:guid}")]
@@ -37,7 +38,7 @@ namespace HomelabAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(device);
+            return Ok(device.ToDto());
         }
 
 
@@ -49,8 +50,8 @@ namespace HomelabAPI.Controllers
         {
             try
             {
-                var device = await _deviceService.CreateDeviceAsync(dto);
-                return CreatedAtAction(nameof(GetDeviceById), new { id = device.Id }, device);
+                var device = await _deviceService.CreateDeviceAsync(dto.ToDomain());
+                return CreatedAtAction(nameof(GetDeviceById), new { id = device.Id }, device.ToDto());
             }
             catch (DuplicateHostnameException ex)
             {

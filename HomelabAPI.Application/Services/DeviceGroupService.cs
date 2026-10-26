@@ -1,7 +1,6 @@
-﻿using HomelabAPI.Application.DTOs.DeviceGroups;
-using HomelabAPI.Application.Interfaces.Repository;
+﻿using HomelabAPI.Application.Interfaces.Repository;
 using HomelabAPI.Application.Interfaces.Services;
-using HomelabAPI.Application.Mapping;
+using HomelabAPI.Core.Domain;
 
 namespace HomelabAPI.Application.Services
 {
@@ -12,7 +11,7 @@ namespace HomelabAPI.Application.Services
         public DeviceGroupService(IDeviceGroupRepository deviceGroupRepository)
             => _deviceGroupRepository = deviceGroupRepository;
 
-        public async Task<IReadOnlyList<DeviceGroupDto>> GetDeviceGroupsAsync()
-            => (await _deviceGroupRepository.GetAllAsync()).ToDtoList();
+        public async Task<IReadOnlyList<DeviceGroup>> GetDeviceGroupsAsync()
+            => await _deviceGroupRepository.GetAllAsync();
     }
 }

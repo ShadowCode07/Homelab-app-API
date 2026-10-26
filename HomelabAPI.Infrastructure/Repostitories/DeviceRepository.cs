@@ -19,6 +19,7 @@ namespace HomelabAPI.Infrastructure.Repostitories
         {
             var entities = await _context.Devices
                 .AsNoTracking()
+                .Include(d => d.DeviceGroup)
                 .OrderBy(d => d.Name)
                 .ToListAsync();
 
@@ -29,6 +30,7 @@ namespace HomelabAPI.Infrastructure.Repostitories
         {
             var entity = await _context.Devices
                 .AsNoTracking()
+                .Include(d => d.DeviceGroup)
                 .FirstOrDefaultAsync(d => d.Id == id);
 
             return entity?.ToDomain();

@@ -24,6 +24,7 @@ namespace HomelabAPI.Core.Domain
         public DateTime? LastSeenAt { get; private set; }
         public DateTime CreatedAt { get; }
         public Guid? DeviceGroupId { get; private set; }
+        public DeviceGroup? DeviceGroup { get; private set; }
 
         public Device(
             Guid id,
@@ -34,7 +35,8 @@ namespace HomelabAPI.Core.Domain
             string? ipAddress,
             DateTime? lastSeenAt,
             DateTime createdAt,
-            Guid? deviceGroupId)
+            Guid? deviceGroupId,
+            DeviceGroup? deviceGroup = null)
         {
             Id = id;
             Name = name;
@@ -45,6 +47,7 @@ namespace HomelabAPI.Core.Domain
             LastSeenAt = lastSeenAt;
             CreatedAt = createdAt;
             DeviceGroupId = deviceGroupId;
+            DeviceGroup = deviceGroup;
         }
 
         public static Device Create(string name, string hostname, DeviceType deviceType, Guid? deviceGroupId)
@@ -96,6 +99,14 @@ namespace HomelabAPI.Core.Domain
                 AddressFamily.InterNetworkV6 => true,
                 _ => false
             };
+        }
+
+        public void AssignGroup(DeviceGroup deviceGroup)
+        {
+            if (deviceGroup.Id != DeviceGroupId)
+                throw new DomainException(nameof(DeviceGroupId), "Groups don't match");
+
+            DeviceGroup = deviceGroup;
         }
     }
 }

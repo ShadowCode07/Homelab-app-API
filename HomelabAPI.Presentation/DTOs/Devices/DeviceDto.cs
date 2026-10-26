@@ -1,6 +1,6 @@
 ﻿using HomelabAPI.Core.Enums;
 
-namespace HomelabAPI.Application.DTOs.Devices
+namespace HomelabAPI.Presentation.DTOs.Devices
 {
     public record DeviceDto
     (

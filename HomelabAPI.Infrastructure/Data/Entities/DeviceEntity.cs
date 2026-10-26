@@ -27,7 +27,8 @@ namespace HomelabAPI.Infrastructure.Data.Entities
                 IpAddress,
                 LastSeenAt,
                 CreatedAt,
-                DeviceGroupId);
+                DeviceGroupId,
+                DeviceGroup?.ToDomain());
 
         // Domain -> entity
         public static DeviceEntity FromDomain(Device device)
@@ -42,6 +43,8 @@ namespace HomelabAPI.Infrastructure.Data.Entities
                 LastSeenAt = device.LastSeenAt,
                 CreatedAt = device.CreatedAt,
                 DeviceGroupId = device.DeviceGroupId
+                // Only the FK on purpose: setting the DeviceGroup navigation here would make
+                // EF track it as a new entity and try to INSERT the existing group again.
             };
     }
 }

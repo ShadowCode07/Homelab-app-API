@@ -1,6 +1,7 @@
-﻿using HomelabAPI.Application.DTOs.DeviceGroups;
+﻿using HomelabAPI.Presentation.DTOs.DeviceGroups;
 using HomelabAPI.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
+using HomelabAPI.Presentation.Mapping;
 
 namespace HomelabAPI.Controllers
 {
@@ -19,6 +20,9 @@ namespace HomelabAPI.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IReadOnlyList<DeviceGroupDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetDeviceGroups()
-            => Ok(await _deviceGroupService.GetDeviceGroupsAsync());
+        {
+            var deviceGroups = await _deviceGroupService.GetDeviceGroupsAsync();
+            return Ok(deviceGroups.ToDtoList());
+        }
     }
 }
