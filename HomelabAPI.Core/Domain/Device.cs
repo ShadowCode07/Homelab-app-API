@@ -26,7 +26,7 @@ namespace HomelabAPI.Core.Domain
         public Guid? DeviceGroupId { get; private set; }
         public DeviceGroup? DeviceGroup { get; private set; }
 
-        public Device(
+        internal Device(
             Guid id,
             string name,
             string hostname,
@@ -50,36 +50,34 @@ namespace HomelabAPI.Core.Domain
             DeviceGroup = deviceGroup;
         }
 
-        public static Device Create(string name, string hostname, DeviceType deviceType, Guid? deviceGroupId)
+        public Device(string name, string hostname, DeviceType deviceType, Guid? deviceGroupId)
+            : this(Guid.NewGuid(), ValidateName(name), ValidateHostname(hostname), deviceType,
+           DeviceStatus.Unknown, ipAddress: null, lastSeenAt: null,
+           createdAt: DateTime.UtcNow, deviceGroupId)
+        {
+        }
+
+        private static string ValidateName(string name)
         {
             var cleanName = (name ?? string.Empty).Trim();
             if (cleanName.Length == 0)
                 throw new DomainException(nameof(Name), "Device name is required.");
             if (cleanName.Length > NameMaxLength)
                 throw new DomainException(nameof(Name), $"Device name can be at most {NameMaxLength} characters.");
+            return cleanName;
+        }
 
-            var cleanHostname = NormalizeHostname(hostname);
+        private static string ValidateHostname(string hostname)
+        {
+            var cleanHostname = (hostname ?? string.Empty).Trim().ToLowerInvariant();
             if (cleanHostname.Length == 0)
                 throw new DomainException(nameof(Hostname), "Hostname is required.");
             if (cleanHostname.Length > HostnameMaxLength)
                 throw new DomainException(nameof(Hostname), $"Hostname can be at most {HostnameMaxLength} characters.");
             if (!IsValidHostname(cleanHostname))
-                throw new DomainException(nameof(Hostname), "Hostname may only contain letters, digits, hyphens and dots, and each part must start and end with a letter or digit.");
-
-            return new Device(
-                Guid.NewGuid(),
-                cleanName,
-                cleanHostname,
-                deviceType,
-                DeviceStatus.Unknown,
-                ipAddress: null,
-                lastSeenAt: null,
-                createdAt: DateTime.UtcNow,
-                deviceGroupId);
+                throw new DomainException(nameof(Hostname), "Invalid hostname format.");
+            return cleanHostname;
         }
-
-        public static string NormalizeHostname(string hostname)
-            => (hostname ?? string.Empty).Trim().ToLowerInvariant();
 
         public static bool IsValidHostname(string hostname)
         {

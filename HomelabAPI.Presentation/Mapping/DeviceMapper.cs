@@ -22,6 +22,6 @@ namespace HomelabAPI.Presentation.Mapping
             => devices.Select(d => d.ToDto()).ToList();
 
         public static Device ToDomain(this DeviceCreateDto dto)
-            => Device.Create(dto.Name, dto.Hostname, dto.DeviceType, dto.DeviceGroupId);
+            => new Device(dto.Name, dto.Hostname, dto.DeviceType, dto.DeviceGroupId);
     }
 }
