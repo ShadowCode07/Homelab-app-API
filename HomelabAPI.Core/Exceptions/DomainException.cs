@@ -1,12 +1,10 @@
 ﻿namespace HomelabAPI.Core.Exceptions
 {
-    public class DomainException : Exception
+    public class DomainException : AppException
     {
-        public string Field { get; }
 
-        public DomainException(string field, string message) : base(message)
+        public DomainException(string field, string message) : base(message, ErrorCategory.Validation, ErrorCodes.DomainValidation, field)
         {
-            Field = field;
         }
     }
 }

@@ -4,6 +4,7 @@ using HomelabAPI.Application.Interfaces.Services;
 using HomelabAPI.Application.Services;
 using HomelabAPI.Infrastructure.Data;
 using HomelabAPI.Infrastructure.Repostitories;
+using HomelabAPI.Presentation.ExceptionHandling;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -32,6 +33,9 @@ namespace HomelabAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend", policy =>
@@ -44,6 +48,8 @@ namespace HomelabAPI
 
             var app = builder.Build();
 
+            app.UseExceptionHandler();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -52,6 +58,8 @@ namespace HomelabAPI
                     c.ConfigObject.AdditionalItems["operationsSorter"] = "method";
                 });
             }
+
+            app.UseHttpsRedirection();
 
             app.UseHttpsRedirection();
 

@@ -48,30 +48,10 @@ namespace HomelabAPI.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateDevice([FromBody] DeviceCreateDto dto)
         {
-            try
-            {
-                var device = await _deviceService.CreateDeviceAsync(dto.ToDomain());
-                return CreatedAtAction(nameof(GetDeviceById), new { id = device.Id }, device.ToDto());
-            }
-            catch (DuplicateHostnameException ex)
-            {
-                ModelState.AddModelError(nameof(DeviceCreateDto.Hostname), ex.Message);
-                return Conflict(new ValidationProblemDetails(ModelState)
-                {
-                    Status = StatusCodes.Status409Conflict,
-                    Title = "Hostname is already in use."
-                });
-            }
-            catch (DomainException ex)
-            {
-                ModelState.AddModelError(ex.Field, ex.Message);
-                return ValidationProblem(ModelState);
-            }
-            catch (DeviceGroupNotFoundException ex)
-            {
-                ModelState.AddModelError(nameof(DeviceCreateDto.DeviceGroupId), ex.Message);
-                return ValidationProblem(ModelState);
-            }
+
+            var device = await _deviceService.CreateDeviceAsync(dto.ToDomain());
+            return CreatedAtAction(nameof(GetDeviceById), new { id = device.Id }, device.ToDto());
+
         }
     }
 }
