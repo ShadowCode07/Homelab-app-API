@@ -1,5 +1,12 @@
-using HomelabAPI.Application.Interfaces;
+using DotNetEnv;
+using HomelabAPI.Application.Interfaces.Repository;
+using HomelabAPI.Application.Interfaces.Services;
 using HomelabAPI.Application.Services;
+using HomelabAPI.Infrastructure.Data;
+using HomelabAPI.Infrastructure.Repostitories;
+using HomelabAPI.Presentation.ExceptionHandling;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace HomelabAPI
 {
@@ -7,24 +14,56 @@ namespace HomelabAPI
     {
         public static void Main(string[] args)
         {
+            Env.TraversePath().Load();
+
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddControllers()
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+            builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+            builder.Services.AddScoped<IDeviceGroupRepository, DeviceGroupRepository>();
 
             builder.Services.AddScoped<IDeviceService, DeviceService>();
+            builder.Services.AddScoped<IDeviceGroupService, DeviceGroupService>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
             var app = builder.Build();
+
+            app.UseExceptionHandler();
 
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.ConfigObject.AdditionalItems["operationsSorter"] = "method";
+                });
             }
 
             app.UseHttpsRedirection();
+
+            app.UseHttpsRedirection();
+
+            app.UseCors("AllowFrontend");
 
             app.UseAuthorization();
 

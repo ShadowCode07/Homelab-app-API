@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HomelabAPI.Core.Entities
+namespace HomelabAPI.Core.Enums
 {
-    public abstract class BaseClass
+    public enum DeviceStatus
     {
-        public Guid Id { get; set; }
+        Unknown = 0,
+        Online = 1,
+        Offline = 2
     }
 }

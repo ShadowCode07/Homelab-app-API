@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="HomelabAPI.Infrastructure" />
+    <InternalsVisibleTo Include="HomelabAPI.Tests" />
+  </ItemGroup>
+
 </Project>

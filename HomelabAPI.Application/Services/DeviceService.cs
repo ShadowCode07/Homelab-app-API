@@ -1,28 +1,44 @@
-﻿using HomelabAPI.Application.Interfaces;
-using HomelabAPI.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HomelabAPI.Application.Exceptions;
+using HomelabAPI.Application.Interfaces.Repository;
+using HomelabAPI.Application.Interfaces.Services;
+using HomelabAPI.Core.Domain;
 
 namespace HomelabAPI.Application.Services
 {
     public class DeviceService : IDeviceService
     {
-        public Task<List<Device>> GetDevicesAsync()
+        private readonly IDeviceRepository _deviceRepository;
+        private readonly IDeviceGroupRepository _deviceGroupRepository;
+
+        public DeviceService(IDeviceRepository deviceRepository, IDeviceGroupRepository deviceGroupRepository)
         {
-            return Task.FromResult(new List<Device>
-            {
-                new Device { Id = Guid.NewGuid(), Name = "Device 1", Type = "Type A", Status = "Active" },
-                new Device { Id = Guid.NewGuid(), Name = "Device 2", Type = "Type B", Status = "Inactive" },
-                new Device { Id = Guid.NewGuid(), Name = "Device 3", Type = "Type C", Status = "Active" }
-            });
+            _deviceRepository = deviceRepository;
+            _deviceGroupRepository = deviceGroupRepository;
         }
 
-        public Task<Device> GetDeviceByIdAsync(Guid id)
+        public async Task<Device> CreateDeviceAsync(Device device)
         {
-           return Task.FromResult(new Device { Id = id, Name = "Device 1", Type = "Type A", Status = "Active" });
+            if (await _deviceRepository.HostnameExistsAsync(device.Hostname))
+                throw new DuplicateHostnameException(device.Hostname);
+
+            if (device.DeviceGroupId is Guid groupId)
+            {
+                var group = await _deviceGroupRepository.GetByIdAsync(groupId)
+                    ?? throw new DeviceGroupNotFoundException(groupId);
+
+                device.AssignGroup(group);
+            }
+
+            await _deviceRepository.AddAsync(device);
+            await _deviceRepository.SaveChangesAsync();
+
+            return device;
         }
+
+        public Task<Device?> GetDeviceByIdAsync(Guid id)
+            => _deviceRepository.GetByIdAsync(id);
+
+        public Task<IReadOnlyList<Device>> GetDevicesAsync()
+            => _deviceRepository.GetAllAsync();
     }
 }

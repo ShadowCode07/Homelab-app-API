@@ -1,38 +1,57 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using HomelabAPI.Application.Interfaces;
+﻿using HomelabAPI.Presentation.DTOs.Devices;
+using HomelabAPI.Application.Exceptions;
+using HomelabAPI.Application.Interfaces.Services;
+using HomelabAPI.Core.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+using HomelabAPI.Presentation.Mapping;
 
 namespace HomelabAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class DeviceController : ControllerBase
     {
-        private readonly IDeviceService _deviceController;
+        private readonly IDeviceService _deviceService;
 
-        public DeviceController(IDeviceService deviceController)
+        public DeviceController(IDeviceService deviceService)
         {
-            _deviceController = deviceController;
+            _deviceService = deviceService;
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IReadOnlyList<DeviceDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetDevices()
         {
-            var devices = await _deviceController.GetDevicesAsync();
-            return Ok(devices);
+            var devices = await _deviceService.GetDevicesAsync();
+            return Ok(devices.ToDtoList());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(DeviceDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetDeviceById(Guid id)
         {
-            var device = await _deviceController.GetDeviceByIdAsync(id);
-
+            var device = await _deviceService.GetDeviceByIdAsync(id);
             if (device == null)
             {
                 return NotFound();
             }
 
-            return Ok(device);
+            return Ok(device.ToDto());
+        }
+
+
+        [HttpPost]
+        [ProducesResponseType(typeof(DeviceDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> CreateDevice([FromBody] DeviceCreateDto dto)
+        {
+
+            var device = await _deviceService.CreateDeviceAsync(dto.ToDomain());
+            return CreatedAtAction(nameof(GetDeviceById), new { id = device.Id }, device.ToDto());
+
         }
     }
 }
