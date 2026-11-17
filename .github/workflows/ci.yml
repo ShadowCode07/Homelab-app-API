@@ -84,7 +84,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ddotnet sonarscanner begin \
+          dotnet sonarscanner begin \
             /k:"ShadowCode07_Homelab-app-API" \
             /o:"shadowcode07" \
             /d:sonar.token="$SONAR_TOKEN" \
