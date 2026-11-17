@@ -437,3 +437,5 @@ x86/
 [Bb]in/
 .env
 CodeCoverage/
+
+*/.idea/workspace.xml */.idea/tasks.xml

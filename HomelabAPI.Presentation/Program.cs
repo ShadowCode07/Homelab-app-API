@@ -8,7 +8,7 @@ using HomelabAPI.Presentation.ExceptionHandling;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
-namespace HomelabAPI
+namespace HomelabAPI.Presentation
 {
     public class Program
     {
