@@ -84,9 +84,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet sonarscanner begin \
-            ShadowCode07_Homelab-app-API:"ShadowCode07_Homelab-app-API" \
-            shadowcode07:"shadowcode07" \
+          ddotnet sonarscanner begin \
+            /k:"ShadowCode07_Homelab-app-API" \
+            /o:"shadowcode07" \
             /d:sonar.token="$SONAR_TOKEN" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.cs.opencover.reportsPaths="**/TestResults/*/coverage.opencover.xml"
