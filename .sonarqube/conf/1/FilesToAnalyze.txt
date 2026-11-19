@@ -1,0 +1,8 @@
+﻿/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Application/Exceptions/DeviceGroupNotFoundException.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Application/Exceptions/DuplicateHostnameException.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Application/Interfaces/Repository/IDeviceGroupRepository.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Application/Interfaces/Repository/IDeviceRepository.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Application/Interfaces/Services/IDeviceGroupService.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Application/Interfaces/Services/IDeviceService.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Application/Services/DeviceGroupService.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Application/Services/DeviceService.cs

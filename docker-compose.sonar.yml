@@ -1,0 +1,21 @@
+# Local SonarQube Community Build for the Homelab API.
+# Start:  docker compose -f docker-compose.sonar.yml up -d
+# Open:   http://localhost:9000  (first login admin / admin, then change the password)
+# Stop:   docker compose -f docker-compose.sonar.yml down   (volumes keep your analyses)
+
+services:
+  sonarqube:
+    image: sonarqube:community
+    container_name: homelab-sonarqube
+    ports:
+      - "127.0.0.1:9000:9000"   # only reachable from this machine
+    volumes:
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+      - sonarqube-logs:/opt/sonarqube/logs
+    restart: unless-stopped
+
+volumes:
+  sonarqube-data:
+  sonarqube-extensions:
+  sonarqube-logs:

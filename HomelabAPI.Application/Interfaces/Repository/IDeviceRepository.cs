@@ -8,6 +8,7 @@ namespace HomelabAPI.Application.Interfaces.Repository
         Task<Device?> GetByIdAsync(Guid id);
         Task<bool> HostnameExistsAsync(string hostname);
         Task AddAsync(Device device);
+        Task UpdateAsync(Device device);
         Task SaveChangesAsync();
     }
 }
