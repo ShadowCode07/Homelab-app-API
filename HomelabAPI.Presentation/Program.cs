@@ -33,6 +33,8 @@ namespace HomelabAPI.Presentation
             builder.Services.AddScoped<IDeviceService, DeviceService>();
             builder.Services.AddScoped<IDeviceGroupService, DeviceGroupService>();
             builder.Services.AddScoped<IDeviceStatusService, DeviceStatusService>();
+            
+            builder.Services.AddHostedService<MqttStatusListener>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
