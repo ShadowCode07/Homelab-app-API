@@ -32,10 +32,10 @@ namespace HomelabAPI.Core.Domain
             string hostname,
             DeviceType deviceType,
             DeviceStatus deviceStatus,
-            string? ipAddress,
-            DateTime? lastSeenAt,
             DateTime createdAt,
-            Guid? deviceGroupId,
+            string? ipAddress = "Ip address not acquired",
+            DateTime? lastSeenAt = null,
+            Guid? deviceGroupId = null,
             DeviceGroup? deviceGroup = null)
         {
             Id = id;
@@ -52,8 +52,8 @@ namespace HomelabAPI.Core.Domain
 
         public Device(string name, string hostname, DeviceType deviceType, Guid? deviceGroupId)
             : this(Guid.NewGuid(), ValidateName(name), ValidateHostname(hostname), deviceType,
-           DeviceStatus.Unknown, ipAddress: null, lastSeenAt: null,
-           createdAt: DateTime.UtcNow, deviceGroupId)
+           DeviceStatus.Unknown, createdAt: DateTime.UtcNow, ipAddress: null,  lastSeenAt: null,
+            deviceGroupId)
         {
         }
 
@@ -105,6 +105,20 @@ namespace HomelabAPI.Core.Domain
                 throw new DomainException(nameof(DeviceGroupId), "Groups don't match");
 
             DeviceGroup = deviceGroup;
+        }
+
+        public void UpdateStatus(DeviceStatus status, DateTime observedAt)
+        {
+            if(status == DeviceStatus.Unknown)
+                throw new DomainException(nameof(DeviceStatus), "Status cannot be unknown.");
+            
+            if (DeviceStatus == status)
+                return;
+            
+            if(status ==  DeviceStatus.Offline)
+                LastSeenAt = observedAt;
+            
+            DeviceStatus = status;
         }
     }
 }

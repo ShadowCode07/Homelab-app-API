@@ -7,8 +7,9 @@ using HomelabAPI.Infrastructure.Repostitories;
 using HomelabAPI.Presentation.ExceptionHandling;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using HomelabAPI.Infrastructure.Mqtt;
 
-namespace HomelabAPI
+namespace HomelabAPI.Presentation
 {
     public class Program
     {
@@ -21,6 +22,8 @@ namespace HomelabAPI
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.Configure<MqttOptions>(builder.Configuration.GetSection("Mqtt"));
+            
             builder.Services.AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
@@ -29,6 +32,9 @@ namespace HomelabAPI
 
             builder.Services.AddScoped<IDeviceService, DeviceService>();
             builder.Services.AddScoped<IDeviceGroupService, DeviceGroupService>();
+            builder.Services.AddScoped<IDeviceStatusService, DeviceStatusService>();
+            
+            builder.Services.AddHostedService<MqttStatusListener>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

@@ -24,9 +24,9 @@ namespace HomelabAPI.Infrastructure.Data.Entities
                 Hostname,
                 DeviceType,
                 DeviceStatus,
+                CreatedAt,
                 IpAddress,
                 LastSeenAt,
-                CreatedAt,
                 DeviceGroupId,
                 DeviceGroup?.ToDomain());
 

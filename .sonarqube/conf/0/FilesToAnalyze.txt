@@ -1,0 +1,8 @@
+﻿/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Core/Domain/Device.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Core/Domain/DeviceGroup.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Core/Enums/DeviceStatus.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Core/Enums/DeviceType.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Core/Exceptions/AppException.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Core/Exceptions/DomainException.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Core/Exceptions/ErrorCategory.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Core/Exceptions/ErrorCodes.cs

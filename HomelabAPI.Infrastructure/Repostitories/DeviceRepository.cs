@@ -42,6 +42,24 @@ namespace HomelabAPI.Infrastructure.Repostitories
         public async Task AddAsync(Device device)
             => await _context.Devices.AddAsync(DeviceEntity.FromDomain(device));
 
+        public async Task UpdateAsync(Device device)
+        {
+            var  entity = await _context.Devices.FirstOrDefaultAsync(d => d.Id == device.Id);
+            
+            if(entity == null)
+                throw new KeyNotFoundException();
+            
+            entity.Name = device.Name;
+            entity.Hostname = device.Hostname;
+            entity.DeviceGroupId = device.DeviceGroupId;
+            entity.DeviceType = device.DeviceType;
+            entity.IpAddress = device.IpAddress;
+            entity.LastSeenAt = device.LastSeenAt;
+            entity.DeviceStatus = device.DeviceStatus;
+            
+            await _context.SaveChangesAsync();
+        }
+
         public Task SaveChangesAsync()
             => _context.SaveChangesAsync();
     }

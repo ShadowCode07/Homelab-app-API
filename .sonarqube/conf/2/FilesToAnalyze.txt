@@ -1,0 +1,15 @@
+﻿/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/ApplicationDbContext.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/DeviceGroupSeed.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/DeviceSeed.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Entities/BaseClass.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Entities/DeviceEntity.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Entities/DeviceGroupEntity.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Migrations/20260929081513_InitialCreate.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Migrations/20260929081513_InitialCreate.Designer.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Migrations/20260929120000_AddDeviceHostnameAndGroups.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Migrations/20260929120000_AddDeviceHostnameAndGroups.Designer.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Migrations/20260929130000_SeedDevices.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Migrations/20260929130000_SeedDevices.Designer.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Data/Migrations/ApplicationDbContextModelSnapshot.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Repostitories/DeviceGroupRepository.cs
+/mnt/data/Projects/Homelab-app/App/Homelab-app-API/HomelabAPI.Infrastructure/Repostitories/DeviceRepository.cs
